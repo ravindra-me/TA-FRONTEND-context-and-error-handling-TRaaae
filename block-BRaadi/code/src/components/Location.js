@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Error } from "./App";
 class Location extends React.Component {
   state = {
     locations: [
@@ -26,50 +26,58 @@ class Location extends React.Component {
     });
   };
   render() {
-    return (
-      <div className="box s1-d">
-        <p className="small">
-          Here we are displaying a list of locations. Clicking on the button
-          below will insert an empty object int the data set. That will make the
-          app break.
-        </p>
-        <p className="small">
-          Fix it using the error boundary and display a friendly message.
-        </p>
-        <div>
+    try {
+      return (
+        <div className="box s1-d">
+          <p className="small">
+            Here we are displaying a list of locations. Clicking on the button
+            below will insert an empty object int the data set. That will make
+            the app break.
+          </p>
+          <p className="small">
+            Fix it using the error boundary and display a friendly message.
+          </p>
           <div>
-            <h2>Locations</h2>
+            <div>
+              <h2>Locations</h2>
+            </div>
           </div>
+          <div>
+            {this.state.locations.map((location) => (
+              <LocationCard key={location.name} {...location} />
+            ))}
+          </div>
+          <button onClick={this.handleClick}>
+            Push an empty object in the data!
+          </button>
         </div>
-        <div>
-          {this.state.locations.map((location) => (
-            <LocationCard key={location.name} {...location} />
-          ))}
-        </div>
-        <button onClick={this.handleClick}>
-          Push an empty object in the data!
-        </button>
-      </div>
-    );
+      );
+    } catch (error) {
+      return <Error error={error} />;
+    }
   }
 }
 
 const LocationCard = (props) => {
-  return (
-    <div>
-      <hr />
-      <p>
-        <b>Name:</b> {props.name.toUpperCase()}
-      </p>
-      <p>
-        <b>Zone:</b> {props.zone}
-      </p>
-      <p>
-        <b>Region:</b> {props.region}
-      </p>
-      <hr />
-    </div>
-  );
+  try {
+    return (
+      <div>
+        <hr />
+        <p>
+          <b>Name:</b> {props.name.toUpperCase()}
+        </p>
+        <p>
+          <b>Zone:</b> {props.zone}
+        </p>
+        <p>
+          <b>Region:</b> {props.region}
+        </p>
+        <hr />
+      </div>
+    );
+  } catch (error) {
+    return <Error error={error} />;
+  }
 };
 
 export default Location;

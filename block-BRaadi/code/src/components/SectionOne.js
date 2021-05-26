@@ -1,5 +1,5 @@
 import React from "react";
-import Error from "./Error";
+import { Error } from "./App";
 class SectionOne extends React.Component {
   state = {
     value: "Hello World!",
